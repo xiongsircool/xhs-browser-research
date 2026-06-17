@@ -36,6 +36,15 @@ Login signals:
 - Not logged in: `扫码`, `手机号登录`, `获取验证码`, `登录后推荐更懂你的笔记`
 - Logged in: no login prompt and at least two of `发布`, `通知`, `我`, `创作中心`
 
+If login is required or expires at any point during search, filtering, detail inspection, or report generation:
+
+1. Stop the current browser action immediately.
+2. Tell the user the browser is waiting for Xiaohongshu login.
+3. Keep the same browser page open.
+4. Wait up to 3 minutes, checking every 10-15 seconds.
+5. After login succeeds, continue from the current task state instead of restarting the whole workflow.
+6. If login is not completed within 3 minutes, report the blocked state and keep the page available for manual completion.
+
 ## Search Intent Defaults
 
 Ask the user what kind of person/content they want to find. Infer filters from intent and confirm briefly before execution.
@@ -55,13 +64,14 @@ For dating/social intent such as `男找女`, `女找男`, `找对象`, `交友`
 - Filter entry: visible `.filter` with text `筛选`.
 - URL does not reliably change after filters. Verify via UI state, screenshot, or changed result cards.
 - Xiaohongshu note details open as a modal/popup from the result list. Do not open many tabs and do not directly `goto()` note hrefs for detail inspection.
+- To inspect a note, click the card image/cover area in the search result grid. Direct note URLs can show 404, QR-code verification, or incomplete pages. Treat card-cover click as the default detail-entry method.
 
 ## Slow Detail Inspection
 
 Process candidates serially:
 
 1. Wait for result cards to stabilize.
-2. Click one visible card.
+2. Click one visible card's image/cover area, not the note URL.
 3. Wait for the modal/popup to appear.
 4. Wait for author, body text, images, comments, and interaction counts to stabilize.
 5. Extract details.
