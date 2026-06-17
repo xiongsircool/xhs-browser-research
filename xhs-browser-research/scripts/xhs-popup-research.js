@@ -5,6 +5,7 @@ const { chromium } = require('/Users/Apple/.codex/browser-mcp/node_modules/playw
 const userDataDir = '/Users/Apple/.codex/browser-mcp/xhs-profile';
 const outputDir = '/Users/Apple/.codex/browser-mcp/output';
 const reportPath = path.join(process.cwd(), 'xhs-shanghai-male-candidates.html');
+const recordsPath = path.join(outputDir, `xhs_popup_records_${new Date().toISOString().replace(/[:.]/g, '-')}.jsonl`);
 const query = '上海男找女';
 
 const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -170,13 +171,16 @@ async function inspectVisible(page, collected, excluded) {
     await page.mouse.click(card.x, card.y);
     const detail = await modalText(page);
     const item = {
+      capturedAt: new Date().toISOString(),
       title: card.text.split(' ').slice(0, 12).join(' '),
       url: card.href,
       image: detail.imgs[0] || card.img,
       cardText: card.text,
       detailText: detail.text,
+      detailImages: detail.imgs,
       ...scoreCandidate({ cardText: card.text, detailText: detail.text }),
     };
+    fs.appendFileSync(recordsPath, `${JSON.stringify(item)}\n`, 'utf8');
     const lowInfo = `${item.cardText} ${item.detailText}`.length < 90;
     const commercial = item.risk.hits.some((hit) => hit !== '信息偏少');
     if (item.score >= 2 && !commercial && !lowInfo) collected.push(item);
@@ -309,7 +313,7 @@ function makeReport({ state, collected, excluded, scanned }) {
   const html = makeReport({ state, collected, excluded, scanned });
   fs.writeFileSync(reportPath, html, 'utf8');
   await page.screenshot({ path: path.join(outputDir, 'xhs_popup_research_final.png'), fullPage: false });
-  console.log(JSON.stringify({ reportPath, kept: collected.length, excluded: excluded.length, scanned, state }, null, 2));
+  console.log(JSON.stringify({ reportPath, recordsPath, kept: collected.length, excluded: excluded.length, scanned, state }, null, 2));
   await context.close();
 })().catch((error) => {
   console.error(error);

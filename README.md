@@ -108,7 +108,7 @@ mkdir -p ~/.codex/browser-mcp/xhs-profile ~/.codex/browser-mcp/output
 
 `xhs-browser-research/scripts/xhs-controller.js` 是长期控制器，适合在一个会话里持续发送命令。
 
-`xhs-browser-research/scripts/xhs-popup-research.js` 是一键实验脚本，会执行搜索、筛选、点击卡片封面打开详情弹窗、抽取信息并生成 HTML 报告。它适合验证流程，但正式使用仍建议优先走 MCP/skill 的慢速可观察流程。
+`xhs-browser-research/scripts/xhs-popup-research.js` 是一键实验脚本，会执行搜索、筛选、点击卡片封面打开详情弹窗、抽取信息并生成 HTML 报告。每次成功打开弹窗后，脚本也会把原始卡片文本、详情文本、图片、风险评分等保存到 `~/.codex/browser-mcp/output/xhs_popup_records_*.jsonl`，方便后续复盘和增量报告。它适合验证流程，但正式使用仍建议优先走 MCP/skill 的慢速可观察流程。
 
 ## 注意事项
 

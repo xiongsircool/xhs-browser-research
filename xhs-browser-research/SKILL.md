@@ -112,6 +112,8 @@ Report sections:
 - Excluded/deprioritized list: item and reason.
 - Limitations: cannot verify identity; user should avoid transfers, unknown apps, QR groups, and pressure tactics.
 
+When a note popup is successfully inspected, save the raw observation immediately before moving to the next candidate. Prefer JSONL records with timestamp, card text, detail text, image URLs, risk hits, score, and note URL. This prevents losing useful observations if later candidates fail or the session is interrupted.
+
 ## References
 
 - `references/xhs-browser-notes.md` records observed selectors and UI behavior.
