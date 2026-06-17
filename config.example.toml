@@ -1,0 +1,3 @@
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest", "--browser", "chrome", "--user-data-dir", "/Users/Apple/.codex/browser-mcp/xhs-profile", "--output-dir", "/Users/Apple/.codex/browser-mcp/output", "--caps", "vision", "--viewport-size", "1280x900", "--timeout-action", "8000", "--timeout-navigation", "30000", "--shared-browser-context"]
