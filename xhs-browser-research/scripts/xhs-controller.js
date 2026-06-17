@@ -276,7 +276,17 @@ async function applyDatingFilters() {
     await sleep(900);
   }
   await sleep(2500);
-  return { selected, filters: await currentFilterSelections(), state: await pageState() };
+  const filters = await currentFilterSelections();
+  await page.evaluate(() => {
+    const nodes = [...document.querySelectorAll('button, div, span')]
+      .map(node => ({ node, rect: node.getBoundingClientRect(), text: (node.innerText || node.textContent || '').trim() }))
+      .filter(item => item.rect.width > 0 && item.rect.height > 0);
+    const close = nodes.find(item => item.text === '收起') || nodes.find(item => item.text.includes('已筛选'));
+    close?.node.click();
+  }).catch(() => {});
+  await page.keyboard.press('Escape').catch(() => {});
+  await sleep(1200);
+  return { selected, filters, state: await pageState() };
 }
 
 async function handle(command) {

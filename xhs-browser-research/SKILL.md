@@ -63,6 +63,7 @@ For dating/social intent such as `男找女`, `女找男`, `找对象`, `交友`
 - Search input: prefer `#search-input`; fallback to `input[placeholder*="搜索"]`.
 - Filter entry: visible `.filter` with text `筛选`.
 - URL does not reliably change after filters. Verify via UI state, screenshot, or changed result cards.
+- After applying filters, close/collapse the filter panel before reading cards. The panel can cover result cards and corrupt visual or DOM extraction.
 - Xiaohongshu note details open as a modal/popup from the result list. Do not open many tabs and do not directly `goto()` note hrefs for detail inspection.
 - To inspect a note, click the card image/cover area in the search result grid. Direct note URLs can show 404, QR-code verification, or incomplete pages. Treat card-cover click as the default detail-entry method.
 
@@ -115,3 +116,4 @@ Report sections:
 
 - `references/xhs-browser-notes.md` records observed selectors and UI behavior.
 - `scripts/xhs-controller.js` is a temporary local controller for experimentation when MCP tools are unavailable in the active session.
+- `scripts/xhs-popup-research.js` is a one-shot research prototype that searches, filters, clicks card covers to inspect popups, and writes an HTML report.

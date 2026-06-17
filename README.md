@@ -17,6 +17,7 @@
 - 使用真实登录态浏览器，不使用旧的小红书 MCP。
 - 复用同一个浏览器页面，不频繁重启、刷新、多开。
 - 结果详情通过点击搜索结果卡片的图片/封面区域打开弹窗，不直接访问详情 URL；直接访问 URL 容易出现 404、扫码校验或页面信息不完整。
+- 筛选完成后要收起筛选面板，否则面板会遮挡结果卡片，影响点击和抽取。
 - 慢速串行处理，每一步等页面稳定后再继续。
 - 如果任意阶段发现需要登录，立即暂停当前任务，提示用户在同一浏览器里登录，最多等待 3 分钟；登录成功后从当前任务继续，不重跑整个流程。
 - 不声称能验证真人身份，只做基于公开页面信息的风险初筛。
@@ -99,8 +100,15 @@ mkdir -p ~/.codex/browser-mcp/xhs-profile ~/.codex/browser-mcp/output
     ├── references/
     │   └── xhs-browser-notes.md
     └── scripts/
-        └── xhs-controller.js
+        ├── xhs-controller.js
+        └── xhs-popup-research.js
 ```
+
+## 实验脚本
+
+`xhs-browser-research/scripts/xhs-controller.js` 是长期控制器，适合在一个会话里持续发送命令。
+
+`xhs-browser-research/scripts/xhs-popup-research.js` 是一键实验脚本，会执行搜索、筛选、点击卡片封面打开详情弹窗、抽取信息并生成 HTML 报告。它适合验证流程，但正式使用仍建议优先走 MCP/skill 的慢速可观察流程。
 
 ## 注意事项
 
